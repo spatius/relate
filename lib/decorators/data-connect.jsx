@@ -42,14 +42,14 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
       constructor (props, context) {
         super(props, context);
 
-        warning(getBundle, `Relent: Data connector data info not configured in ${WrappedComponent.displayName || 'a component'}, use Redux connect instead!`);
+        warning(getBundle, `Relate: Data connector data info not configured in ${WrappedComponent.displayName || 'a component'}, use Redux connect instead!`);
 
         const initialBundle = getBundle && getBundle(this.props);
 
-        // Relent connector info
+        // Relate connector info
         this.ID = 'connector_' + ID++;
         this.variablesTypes = initialBundle && initialBundle.variablesTypes || {};
-        this.relent = {
+        this.relate = {
           setVariables: ::this.setVariables,
           variables: initialBundle && initialBundle.initialVariables
         };
@@ -82,7 +82,6 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
         forEach(keysA, (key) => {
           if (!bHasOwnProperty(key)) {
             result = true;
-            return false;
           } else if (this.props[key] !== nextProps[key]) {
             if (key === 'graphql') {
               const prevGraphql = this.props.graphql;
@@ -95,39 +94,41 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
                 return false;
               }
 
-              // check each one
-              let resultSearch = false;
-              forEach(nextConnectorMap, (data, queryName) => {
-                if (data.constructor === Array) {
-                  let resultIt = false;
-                  forEach(data, (dataEntry) => {
-                    if (prevGraphql[dataEntry] !== nextGraphql[dataEntry]) {
-                      resultIt = true;
+              if (!result) {
+                // check each one
+                let resultSearch = false;
+                forEach(nextConnectorMap, (data, queryName) => {
+                  if (data.constructor === Array) {
+                    let resultIt = false;
+                    forEach(data, (dataEntry) => {
+                      if (prevGraphql[dataEntry] !== nextGraphql[dataEntry]) {
+                        resultIt = true;
+                        return false;
+                      }
+                    });
+                    if (resultIt) {
+                      resultSearch = true;
                       return false;
                     }
-                  });
-                  if (resultIt) {
-                    resultSearch = true;
-                    return false;
+                  } else {
+                    if (prevGraphql[data] !== nextGraphql[data]) {
+                      resultSearch = true;
+                    }
                   }
-                } else {
-                  if (prevGraphql[data] !== nextGraphql[data]) {
-                    resultSearch = true;
-                    return false;
-                  }
-                }
-              });
+                  return !resultSearch;
+                });
 
-              // some entry changed
-              if (resultSearch) {
-                result = true;
-                return false;
+                // some entry changed
+                if (resultSearch) {
+                  result = true;
+                  return false;
+                }
               }
             } else {
               result = true;
-              return false;
             }
           }
+          return !result;
         });
 
         return result;
@@ -139,7 +140,7 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
 
       setVariables (variables) {
         const bundle = getBundle && getBundle(this.props);
-        this.relent.variables = variables;
+        this.relate.variables = variables;
 
         // Fetch data
         bundle && this.fetchData({
@@ -157,11 +158,11 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
             const queryVariablesTypes = this.variablesTypes[queryName];
 
             // No variables types defined for this query
-            invariant(queryVariablesTypes, `Relent Error: Query to ${queryName} doesn't have variables types defined in ${WrappedComponent.displayName || 'a component'}!`);
+            invariant(queryVariablesTypes, `Relate Error: Query to ${queryName} doesn't have variables types defined in ${WrappedComponent.displayName || 'a component'}!`);
 
             // Check if every variable has a type
             forEach(vars, (value, variable) => {
-              invariant(queryVariablesTypes[variable], `Relent Error: Query to ${queryName} doesn't have variable '${variable}' type defined in ${WrappedComponent.displayName || 'a component'}!`);
+              invariant(queryVariablesTypes[variable], `Relate Error: Query to ${queryName} doesn't have variable '${variable}' type defined in ${WrappedComponent.displayName || 'a component'}!`);
 
               // add variable prepared for query e.g. {type: 'String', value: 'something'}
               resultVariables[queryName][variable] = {
@@ -172,7 +173,7 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
 
             // Check if every required variable type is met
             forEach(queryVariablesTypes, (type, variable) => {
-              invariant(type.slice(-1) !== '!' || vars[variable], `Relent Error: Query to ${queryName} requires the variable '${variable}' in ${WrappedComponent.displayName || 'a component'}!`);
+              invariant(type.slice(-1) !== '!' || vars[variable], `Relate Error: Query to ${queryName} requires the variable '${variable}' in ${WrappedComponent.displayName || 'a component'}!`);
             });
           });
         }
@@ -225,7 +226,7 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
           });
         }
 
-        return <WrappedComponent {...this.props} {...dataToInject} relent={this.relent} loading={this.state.loading} />;
+        return <WrappedComponent {...this.props} {...dataToInject} relate={this.relate} loading={this.state.loading} />;
       }
     }
 
