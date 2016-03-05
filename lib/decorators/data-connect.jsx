@@ -1,11 +1,11 @@
-import * as adminActions from 'actions/graphql';
-
 import forEach from 'lodash.foreach';
 import hoistStatics from 'hoist-non-react-statics';
 import invariant from 'invariant';
 import warning from 'warning';
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+
+import removeConnector from '../actions/remove-connector';
 
 var ID = 0;
 
@@ -135,7 +135,7 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
       }
 
       componentWillUnmount () {
-        this.context.store.dispatch(adminActions.removeConnector(this.ID));
+        this.context.store.dispatch(removeConnector(this.ID));
       }
 
       setVariables (variables) {

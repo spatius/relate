@@ -1,11 +1,11 @@
-import * as adminActions from 'actions/graphql';
-
 import debounce from 'lodash.debounce';
 import hoistStatics from 'hoist-non-react-statics';
 import Q from 'q';
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {mergeFragments, buildQueryAndVariables} from 'relax-fragments';
+
+import queryAction from '../actions/query';
 
 export default function rootDataConnect () {
   return function wrapWithDataConnect (WrappedComponent) {
@@ -39,7 +39,8 @@ export default function rootDataConnect () {
       }
 
       childFetchData ({fragments, variables, ID, mutations}) {
-        // TODO check if same query with different variables (will need to batch more than one fetch)
+        // TODO check if same query with different variables (will need to scope varibles)
+        // e.g. {somepages: pages (..) {..}, morepages: pages (..) {..}}
 
         this.bundle = {
           fragments: mergeFragments(this.bundle.fragments || {}, fragments || {}),
@@ -57,13 +58,14 @@ export default function rootDataConnect () {
 
       fetchData () {
         const { dispatch } = this.context.store;
-        const actions = bindActionCreators(adminActions, dispatch);
-        actions
-          .graphql(buildQueryAndVariables(this.bundle.fragments, this.bundle.variables), this.bundle.connectors)
-          .then(() => {
-            this.deferred.resolve();
-            this.deferred = null;
-          });
+        const action = dispatch(queryAction);
+        action(
+          buildQueryAndVariables(this.bundle.fragments, this.bundle.variables),
+          this.bundle.connectors
+        ).then(() => {
+          this.deferred.resolve();
+          this.deferred = null;
+        });
         this.bundle = {};
       }
 
