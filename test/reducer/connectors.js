@@ -254,4 +254,71 @@ describe('Connectors store', () => {
     expect(connectors.getConnectorsToUpdate(['b'])).toEqual(['connector1']);
     expect(connectors.getConnectorsToUpdate(['a'], ['connector1', 'connector2'])).toEqual([]);
   });
+
+  it('Removes node and returns connectors to update', () => {
+    connectors.connectors = {
+      connector1: {
+        data: {
+          pages: ['a', 'b'],
+          page: 'a'
+        },
+        listens: {
+          pages: ['a', 'b'],
+          page: ['a']
+        }
+      },
+      connector2: {
+        data: {
+          pages: ['a', 'c']
+        },
+        listens: {
+          pages: ['a', 'c', 'd']
+        }
+      }
+    };
+
+    expect(connectors.removeNode('a')).toEqual(['connector1', 'connector2']);
+    expect(connectors.connectors).toEqual({
+      connector1: {
+        data: {
+          pages: ['b'],
+          page: null
+        },
+        listens: {
+          pages: ['b'],
+          page: []
+        }
+      },
+      connector2: {
+        data: {
+          pages: ['c']
+        },
+        listens: {
+          pages: ['c', 'd']
+        }
+      }
+    });
+
+    expect(connectors.removeNode('d')).toEqual(['connector2']);
+    expect(connectors.connectors).toEqual({
+      connector1: {
+        data: {
+          pages: ['b'],
+          page: null
+        },
+        listens: {
+          pages: ['b'],
+          page: []
+        }
+      },
+      connector2: {
+        data: {
+          pages: ['c']
+        },
+        listens: {
+          pages: ['c']
+        }
+      }
+    });
+  });
 });
