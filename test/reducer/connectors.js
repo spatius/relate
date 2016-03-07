@@ -1,6 +1,6 @@
 import expect from 'expect';
 
-import Link from '../../lib/reducer/link';
+import store from '../../lib/reducer/store';
 import {Connectors} from '../../lib/reducer/connectors';
 
 describe('Connectors store', () => {
@@ -189,5 +189,47 @@ describe('Connectors store', () => {
         }
       }
     });
+  });
+
+  it('Generates data for connector', () => {
+    store.db = {
+      a: {
+        _id: 'a',
+        title: 'A'
+      },
+      b: {
+        _id: 'b',
+        title: 'B'
+      }
+    };
+
+    connectors.connectors = {
+      connector1: {
+        data: {
+          pages: ['a', 'b'],
+          page: 'a'
+        }
+      }
+    };
+
+    expect(connectors.generateConnectorData('connector1')).toEqual({
+      pages: [
+        {
+          _id: 'a',
+          title: 'A'
+        },
+        {
+          _id: 'b',
+          title: 'B'
+        }
+      ],
+      page: {
+        _id: 'a',
+        title: 'A'
+      }
+    });
+
+    // Clean up
+    store.db = {};
   });
 });
