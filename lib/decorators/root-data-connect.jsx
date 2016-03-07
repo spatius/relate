@@ -2,7 +2,6 @@ import debounce from 'lodash.debounce';
 import hoistStatics from 'hoist-non-react-statics';
 import Q from 'q';
 import React, {Component, PropTypes} from 'react';
-import {bindActionCreators} from 'redux';
 import {mergeFragments, buildQueryAndVariables} from 'relax-fragments';
 
 import queryAction from '../actions/query';
