@@ -265,4 +265,47 @@ describe('Store', () => {
       ]
     });
   });
+
+  it('Removes node', () => {
+    // Clean up
+    store.db = {};
+
+    store.updateNodes({
+      a: {
+        _id: 'a',
+        title: 'A'
+      },
+      b: {
+        _id: 'b',
+        title: 'B',
+        linked: new Link('a')
+      },
+      c: {
+        _id: 'c',
+        title: 'C',
+        linked: new Link(['a', 'b'])
+      }
+    });
+    store.removeNode('a');
+    expect(store.db).toEqual({
+      b: {
+        _id: 'b',
+        title: 'B',
+        linked: new Link('a')
+      },
+      c: {
+        _id: 'c',
+        title: 'C',
+        linked: new Link(['a', 'b'])
+      }
+    });
+    store.removeNode('b');
+    expect(store.db).toEqual({
+      c: {
+        _id: 'c',
+        title: 'C',
+        linked: new Link(['a', 'b'])
+      }
+    });
+  });
 });
