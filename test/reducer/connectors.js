@@ -232,4 +232,26 @@ describe('Connectors store', () => {
     // Clean up
     store.db = {};
   });
+
+  it('Gets connectors to update', () => {
+    connectors.connectors = {
+      connector1: {
+        listens: {
+          pages: ['a', 'b'],
+          page: ['a']
+        }
+      },
+      connector2: {
+        listens: {
+          pages: ['a', 'c']
+        }
+      }
+    };
+
+    expect(connectors.getConnectorsToUpdate(['a'])).toEqual(['connector1', 'connector2']);
+    expect(connectors.getConnectorsToUpdate(['a'], ['connector1'])).toEqual(['connector2']);
+    expect(connectors.getConnectorsToUpdate(['c'])).toEqual(['connector2']);
+    expect(connectors.getConnectorsToUpdate(['b'])).toEqual(['connector1']);
+    expect(connectors.getConnectorsToUpdate(['a'], ['connector1', 'connector2'])).toEqual([]);
+  });
 });

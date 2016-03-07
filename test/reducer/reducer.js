@@ -1,6 +1,5 @@
 import expect from 'expect';
 
-import Link from '../../lib/reducer/link';
 import {reducer, actionTypes} from '../../lib';
 
 describe('Reducer', () => {
@@ -22,42 +21,74 @@ describe('Reducer', () => {
     expect(newState1).toEqual(state);
   });
 
-  // it('Adds nodes to a connector who requested it', () => {
-  //   const state = {};
-  //   const newState = reducer(state, {
-  //     type: actionTypes.query,
-  //     data: {
-  //       pages: [{_id: 'a', title: 'some'}, {_id: 'b', title: 'another'}],
-  //       page: {_id: 'c', title: 'other'}
-  //     },
-  //     fragments: {
-  //       pages: {
-  //         _id: 1,
-  //         title: 1
-  //       },
-  //       page: {
-  //         _id: 1,
-  //         title: 1
-  //       }
-  //     },
-  //     connectors: {
-  //
-  //     }
-  //   });
-  //   expect(newState).toNotBe(state);
-  //   expect(newState).toEqual({
-  //     a: {
-  //       _id: 'a',
-  //       title: 'some'
-  //     },
-  //     b: {
-  //       _id: 'b',
-  //       title: 'another'
-  //     },
-  //     c: {
-  //       _id: 'c',
-  //       title: 'other'
-  //     }
-  //   });
-  // });
+  it('State returns connectors data from what was requested', () => {
+    const state = {};
+    const newState = reducer(state, {
+      type: actionTypes.query,
+      data: {
+        pages: [{_id: 'a', title: 'some'}, {_id: 'b', title: 'another'}],
+        page: {_id: 'c', title: 'other'}
+      },
+      fragments: {
+        pages: {
+          _id: 1,
+          title: 1
+        },
+        page: {
+          _id: 1,
+          title: 1
+        }
+      },
+      connectors: {
+        connector1: {
+          fragments: {
+            pages: {
+              _id: 1,
+              title: 1
+            }
+          }
+        },
+        connector2: {
+          fragments: {
+            pages: {
+              _id: 1,
+              title: 1
+            },
+            page: {
+              _id: 1,
+              title: 1
+            }
+          }
+        }
+      }
+    });
+    expect(newState).toNotBe(state);
+    expect(newState).toEqual({
+      connector1: {
+        pages: [
+          {
+            _id: 'a',
+            title: 'some'
+          },
+          {
+            _id: 'b',
+            title: 'another'
+          }
+        ]
+      },
+      connector2: {
+        pages: [
+          {
+            _id: 'a',
+            title: 'some'
+          },
+          {
+            _id: 'b',
+            title: 'another'
+          }
+        ],
+        page: {_id: 'c', title: 'other'}
+      }
+    });
+  });
 });
