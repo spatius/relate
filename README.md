@@ -8,7 +8,7 @@ Relate follows a similar API to [Relay](https://github.com/facebook/relay), this
 * Fragments are not specified as GraphQL notation but as a plain object.
 * Server side rendering (In progress)
 
-Here's how it works:
+## Here's How it Works
 
 ```js
 @dataConnect(
