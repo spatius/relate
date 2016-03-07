@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 
 import removeConnector from '../actions/remove-connector';
 
-var ID = 0;
+var ID_COUNTER = 0;
 
 export default function dataConnect (getReduxState, getReduxDispatches, _getBundle) {
   // let not defining redux functions
@@ -16,27 +16,34 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
     getBundle = getReduxState;
   }
 
+  // Connector id
+  const CONNECTOR_ID = 'connector_' + ID_COUNTER++;
+
   return function wrapWithDataConnect (WrappedComponent) {
     @connect(
       (state, props) => {
         return Object.assign(getReduxState && getReduxState(state, props) || {}, {
-          graphql: state.graphql
+          relateConnectorData: state.graphql[CONNECTOR_ID]
         });
       },
       (dispatch) => {
         return Object.assign(getReduxDispatches && getReduxDispatches(dispatch) || {}, {
-          removeConnector: dispatch(adminActions.removeConnector)
+          removeConnector: dispatch(removeConnector)
         });
       }
     )
     class ConnectData extends Component {
       static propTypes = {
-        graphql: PropTypes.object.isRequired
+        relateConnectorData: PropTypes.object
       };
 
       static contextTypes = {
         fetchData: PropTypes.func.isRequired,
         store: PropTypes.any.isRequired
+      };
+
+      static defaultProps = {
+        relateConnectorData: {}
       };
 
       constructor (props, context) {
@@ -47,7 +54,6 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
         const initialBundle = getBundle && getBundle(this.props);
 
         // Relate connector info
-        this.ID = 'connector_' + ID++;
         this.variablesTypes = initialBundle && initialBundle.variablesTypes || {};
         this.relate = {
           setVariables: ::this.setVariables,
@@ -67,75 +73,8 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
         };
       }
 
-      shouldComponentUpdate (nextProps) {
-        const keysA = Object.keys(this.props);
-        const keysB = Object.keys(nextProps);
-
-        if (keysA.length !== keysB.length) {
-          return true;
-        }
-
-        const bHasOwnProperty = Object.prototype.hasOwnProperty.bind(nextProps);
-        let result = false;
-
-        // TODO: Improve this loop
-        forEach(keysA, (key) => {
-          if (!bHasOwnProperty(key)) {
-            result = true;
-          } else if (this.props[key] !== nextProps[key]) {
-            if (key === 'graphql') {
-              const prevGraphql = this.props.graphql;
-              const nextGraphql = nextProps.graphql;
-              const nextConnectorMap = nextGraphql[this.ID];
-
-              // Connector data map chaged
-              if (prevGraphql[this.ID] !== nextConnectorMap) {
-                result = true;
-                return false;
-              }
-
-              if (!result) {
-                // check each one
-                let resultSearch = false;
-                forEach(nextConnectorMap, (data, queryName) => {
-                  if (data.constructor === Array) {
-                    let resultIt = false;
-                    forEach(data, (dataEntry) => {
-                      if (prevGraphql[dataEntry] !== nextGraphql[dataEntry]) {
-                        resultIt = true;
-                        return false;
-                      }
-                    });
-                    if (resultIt) {
-                      resultSearch = true;
-                      return false;
-                    }
-                  } else {
-                    if (prevGraphql[data] !== nextGraphql[data]) {
-                      resultSearch = true;
-                    }
-                  }
-                  return !resultSearch;
-                });
-
-                // some entry changed
-                if (resultSearch) {
-                  result = true;
-                  return false;
-                }
-              }
-            } else {
-              result = true;
-            }
-          }
-          return !result;
-        });
-
-        return result;
-      }
-
       componentWillUnmount () {
-        this.context.store.dispatch(removeConnector(this.ID));
+        this.context.store.dispatch(removeConnector(CONNECTOR_ID));
       }
 
       setVariables (variables) {
@@ -187,7 +126,7 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
           fetchData({
             fragments,
             variables: this.getVariables(variables),
-            ID: this.ID,
+            ID: CONNECTOR_ID,
             mutations
           })
             .then(() => {
@@ -199,34 +138,8 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
       }
 
       render () {
-        // get data needed from store
-        // check what data it is
-        const {graphql} = this.props;
-        const dataNeeds = graphql[this.ID];
-
-        // dataNeeds has e.g.
-        // {
-        //   pages: [id, id1, id2],
-        //   page: id3
-        // }
-        const dataToInject = {};
-        if (dataNeeds) {
-          forEach(dataNeeds, (data, queryName) => {
-            if (data.constructor === Array) {
-              dataToInject[queryName] = [];
-              forEach(data, (id) => {
-                const node = graphql[id];
-                if (node) {
-                  dataToInject[queryName].push(node);
-                }
-              });
-            } else {
-              dataToInject[queryName] = graphql[data];
-            }
-          });
-        }
-
-        return <WrappedComponent {...this.props} {...dataToInject} relate={this.relate} loading={this.state.loading} />;
+        const {relateConnectorData, ...otherProps} = this.props;
+        return <WrappedComponent {...otherProps} {...relateConnectorData} relate={this.relate} loading={this.state.loading} />;
       }
     }
 
