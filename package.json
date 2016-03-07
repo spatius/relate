@@ -1,5 +1,5 @@
 {
-  "name": "relate",
+  "name": "relate-js",
   "version": "0.0.0",
   "description": "Relate is an agnostic client data connector for React on top of Redux",
   "main": "index.js",
@@ -26,7 +26,7 @@
     "lodash.merge": "^4.3.2",
     "lodash.union": "^4.2.0",
     "q": "^1.4.1",
-    "relax-fragments": "^0.1.0",
+    "relax-fragments": "^0.1.1",
     "superagent": "^1.7.2",
     "warning": "^2.1.0"
   },
