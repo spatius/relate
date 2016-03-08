@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href='/_css/bootstrap.min.css' rel='stylesheet'>
+  <link href='/_css/docs.css' rel='stylesheet'>
+  <link href='/_css/font-awesome.min.css' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='menu'>
+    <div class='logo'>
+      <img src='/_images/logo.png' />
+      <span>Relate.js</span>
+    </div>
+    <nav class='menu-nav'>
+      <ul class='nav'>
+        <li>
+          <span>1. Introduction</span>
+          <ul class='nav'>
+            <li>
+              <a href='/'><b>1.1.</b> Motivation</a>
+            </li>
+            <li>
+              <a href='#'><b>1.2.</b> How it works</a>
+            </li>
+            <li>
+              <a href='#'><b>1.3.</b> Link</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span>2. Usage</span>
+          <ul class='nav'>
+            <li>
+              <a href='#'><b>2.1.</b> Reducer</a>
+            </li>
+            <li>
+              <a href='#'><b>2.2.</b> Root data connector</a>
+            </li>
+            <li>
+              <a href='#'><b>2.3.</b> Data connector</a>
+            </li>
+            <li>
+              <a href='#'><b>2.4.</b> Link</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <a class='footer' href='https://github.com/relax/relate'>
+      <i class='fa fa-github'></i>
+      <span>Project on github</span>
+    </a>
+  </div>
+  <div class='page'>
+    <div class='page-content'>
+      <h1>Motivation</h1>
+
+<p>Relate is an extension of the redux connect which resolves your data needs automatically and provides it to your wrapped component.</p>
+
+<p>Relate follows a similar API to <a href="https://github.com/facebook/relay">Relay</a>, this project isn&#39;t supposed to replace it but is more of an alternative to it. The main difference between them are:</p>
+
+<ul>
+<li><strong>Relate is agnostic to your schema</strong>, which means you don&#39;t have to alter your schemas to use it.</li>
+<li><strong>Relate uses Redux and extends React Redux</strong>, if you use these techs in your project already, it&#39;ll be a perfect fit.</li>
+<li>Since it uses Redux <strong>you can capture queries and mutations in other reducers</strong> and process them in other ways.</li>
+<li>Fragments are not specified as GraphQL notation but as a plain object.</li>
+<li>Server side rendering (In progress)</li>
+</ul>
+
+    </div>
+  </div>
+  
+  
+    <a class='next' href='/how-it-works.html'>
+      <span>Next</span>
+      <i class='fa fa-angle-right'></i>
+    </a>
+  
+</body>
+</html>

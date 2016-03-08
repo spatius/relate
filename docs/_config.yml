@@ -1,0 +1,13 @@
+highlighter: pygments
+include:
+  - _css
+  - _images
+  - fonts
+sass:
+  style: :compressed
+  sass_dir: _css
+markdown: redcarpet
+redcarpet:
+  extensions:
+  - fenced_code_blocks
+  - footnotes

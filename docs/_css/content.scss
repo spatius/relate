@@ -1,0 +1,42 @@
+.page {
+  padding-left: $menuWidth;
+}
+
+.page-content {
+  padding: 40px;
+  margin: 0 auto;
+  width: 850px;
+  max-width: 100%;
+}
+
+.previous, .next {
+  display: inline-block;
+  position: fixed;
+  bottom: 0;
+  padding: 20px;
+  text-decoration: none;
+
+  i, span {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 30px;
+    color: $primary;
+  }
+  i {
+    font-size: 16px;
+  }
+  span {
+    font-size: 15px;
+    padding: 0 5px;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+.previous {
+  left: $menuWidth;
+}
+.next {
+  right: 0;
+}
