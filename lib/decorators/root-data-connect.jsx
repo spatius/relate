@@ -60,6 +60,7 @@ export default function rootDataConnect () {
         const action = dispatch(queryAction);
         action(
           buildQueryAndVariables(this.bundle.fragments, this.bundle.variables),
+          this.bundle.fragments,
           this.bundle.connectors
         ).then(() => {
           this.deferred.resolve();
