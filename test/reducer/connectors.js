@@ -321,4 +321,101 @@ describe('Connectors store', () => {
       }
     });
   });
+
+  it('Alter connectors listening for a mutation', () => {
+    connectors.connectors = {
+      connector1: {
+        data: {
+          pages: ['a', 'b'],
+          page: 'a'
+        },
+        listens: {
+          pages: ['a', 'b'],
+          page: ['a']
+        },
+        mutations: {
+          addPage: [
+            {
+              type: 'APPEND',
+              field: 'pages'
+            }
+          ]
+        }
+      },
+      connector2: {
+        data: {
+          pages: {
+            items: ['a', 'b'],
+            count: 2
+          }
+        },
+        listens: {
+          pages: ['a', 'b', 'c', 'd']
+        },
+        mutations: {
+          addPage: [
+            {
+              type: 'APPEND',
+              field: ['pages', 'items']
+            },
+            {
+              type: 'INCREMENT',
+              field: ['pages', 'count']
+            }
+          ]
+        }
+      }
+    };
+
+    const toUpdate = connectors.checkMutationListeners(
+      'addPage',
+      'e',
+      ['e', 'f']
+    );
+
+    expect(toUpdate).toEqual(['connector1', 'connector2']);
+    expect(connectors.connectors).toEqual({
+      connector1: {
+        data: {
+          pages: ['a', 'b', 'e'],
+          page: 'a'
+        },
+        listens: {
+          pages: ['a', 'b', 'e', 'f'],
+          page: ['a']
+        },
+        mutations: {
+          addPage: [
+            {
+              type: 'APPEND',
+              field: 'pages'
+            }
+          ]
+        }
+      },
+      connector2: {
+        data: {
+          pages: {
+            items: ['a', 'b', 'e'],
+            count: 3
+          }
+        },
+        listens: {
+          pages: ['a', 'b', 'c', 'd', 'e', 'f']
+        },
+        mutations: {
+          addPage: [
+            {
+              type: 'APPEND',
+              field: ['pages', 'items']
+            },
+            {
+              type: 'INCREMENT',
+              field: ['pages', 'count']
+            }
+          ]
+        }
+      }
+    });
+  });
 });
