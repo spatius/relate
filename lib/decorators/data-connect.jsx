@@ -9,6 +9,52 @@ import removeConnector from '../actions/remove-connector';
 
 var ID_COUNTER = 0;
 
+// getBundle is a function which receives the component props and retrieves a configuration set by the user
+// e.g
+// (props) => ({
+//   fragments: {
+//     pages: {
+//       _id: 1,
+//       title: 1
+//     },
+//     page: {
+//       _id: 1,
+//       title: 1,
+//       user: {
+//         _id: 1,
+//         username: 1
+//       }
+//     }
+//   },
+//   variablesTypes: {
+//     pages: {
+//       order: 'String!',
+//       sort: 'String!'
+//     }
+//   },
+//   initialVariables: {
+//     pages: {
+//       order: 'asc',
+//       sort: 'date'
+//     }
+//   },
+//   mutations: {
+//     addPage: [
+//       {
+//         type: 'APPEND', // INCREMENT || DECREMENT || APPEND || PREPEND
+//         field: 'pages'
+//       },
+//       {
+//         type: 'INCREMENT',
+//         field: 'pagesCount'
+//       },
+//       {
+//         type: 'INCREMENT',
+//         field: ['pages', 'pagesCount']
+//       }
+//     ]
+//   }
+// })
 export default function dataConnect (getReduxState, getReduxDispatches, _getBundle) {
   // let not defining redux functions
   let getBundle = _getBundle;

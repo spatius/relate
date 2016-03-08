@@ -193,21 +193,76 @@ describe('Nodes processing', () => {
         _id: 1,
         username: 1
       }
-    }, 'pages');
+    });
+
+    const result1 = processNode({
+      items: [
+        {
+          _id: 'a',
+          title: 'A',
+          user: {
+            _id: 'user1',
+            username: 'User 1'
+          }
+        },
+        {
+          _id: 'b',
+          title: 'B',
+          user: {
+            _id: 'user1',
+            username: 'User 1'
+          }
+        }
+      ],
+      pagesCount: 2
+    }, {
+      items: {
+        _id: 1,
+        title: 1,
+        user: {
+          _id: 1,
+          username: 1
+        }
+      },
+      pagesCount: 1
+    });
 
     expect(result).toEqual({
-      relativeNodes: ['pages'],
-      nodes: ['user1', 'pages'],
+      relativeNodes: [
+        {
+          title: 'A',
+          user: new Link('user1')
+        }, {
+          title: 'B',
+          user: new Link('user1')
+        }
+      ],
+      nodes: ['user1'],
       changes: {
-        pages: [
-          {
-            title: 'A',
-            user: new Link('user1')
-          }, {
-            title: 'B',
-            user: new Link('user1')
-          }
-        ],
+        user1: {
+          _id: 'user1',
+          username: 'User 1'
+        }
+      }
+    });
+
+    expect(result1).toEqual({
+      relativeNodes: {
+        items: new Link(['a', 'b']),
+        pagesCount: 2
+      },
+      nodes: ['a', 'user1', 'b'],
+      changes: {
+        a: {
+          _id: 'a',
+          title: 'A',
+          user: new Link('user1')
+        },
+        b: {
+          _id: 'b',
+          title: 'B',
+          user: new Link('user1')
+        },
         user1: {
           _id: 'user1',
           username: 'User 1'
