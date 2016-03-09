@@ -14,7 +14,7 @@ Relate has three main parts:
 
 Here's a small illustration of how it works:
 
-![Relate scheme](/images/relate_scheme.png)
+![Relate scheme](images/relate_scheme.png)
 
 Relate is agnostic to your data schema. For this to work Relate presumes your schema models have an ID associated, it will search data received from requests and check for nodes which have an ID associated. For example, when receiving the following data from a query:
 
