@@ -13,39 +13,18 @@
       <span>Relate.js</span>
     </div>
     <nav class='menu-nav'>
-      <ul class='nav'>
-        <li>
-          <span>1. Introduction</span>
+      {% for section in site.data.nav %}
+        <ul class='nav'>
+          <span>{{ section.title }}</span>
           <ul class='nav'>
-            <li>
-              <a href='/'><b>1.1.</b> Motivation</a>
-            </li>
-            <li>
-              <a href='#'><b>1.2.</b> How it works</a>
-            </li>
-            <li>
-              <a href='#'><b>1.3.</b> Link</a>
-            </li>
+            {% for item in section.items %}
+              <li>
+                {{ item | sidebar_item_link}}
+              </li>
+            {% endfor %}
           </ul>
-        </li>
-        <li>
-          <span>2. Usage</span>
-          <ul class='nav'>
-            <li>
-              <a href='#'><b>2.1.</b> Reducer</a>
-            </li>
-            <li>
-              <a href='#'><b>2.2.</b> Root data connector</a>
-            </li>
-            <li>
-              <a href='#'><b>2.3.</b> Data connector</a>
-            </li>
-            <li>
-              <a href='#'><b>2.4.</b> Link</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
+        </ul>
+      {% endfor %}
     </nav>
     <a class='footer' href='https://github.com/relax/relate'>
       <i class='fa fa-github'></i>

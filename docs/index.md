@@ -1,5 +1,6 @@
 ---
 layout: default
+id: index
 title: Welcome
 next: how-it-works.html
 ---

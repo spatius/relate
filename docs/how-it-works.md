@@ -1,6 +1,7 @@
 ---
 layout: default
-title: Welcome
+id: how-it-works
+title: How it works
 prev: index.html
 next: how-it-works.html
 ---
@@ -9,7 +10,7 @@ next: how-it-works.html
 
 Relate has three main parts:
 
-* Data connectors - are an extension of the React Redux connect, and serve to 
+* Data connectors - are an extension of the React Redux connect, and serve to
 
 Relate is agnostic to your data schema. For this to work Relate presumes your schema models have an ID associated, it will search data received from requests and check for nodes which have an ID associated. For example, when receiving the following data from a query:
 

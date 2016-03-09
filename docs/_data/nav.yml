@@ -1,0 +1,24 @@
+- title: Introduction
+  items:
+  - id: index
+    title: What is relate
+  - id: how-it-works
+    title: How it works
+  - id: requirements
+    title: Requirements
+- title: Usage
+  items:
+  - id: installation
+    title: Installation
+  - id: reducer
+    title: Reducer
+  - id: root-data-connect
+    title: Root data connect
+  - id: fragments
+    title: Fragments
+  - id: mutations
+    title: Mutations
+- title: Advanced Usage
+  items:
+  - id: intersecting
+    title: Catch queries or mutations in other reducers
