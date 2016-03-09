@@ -3,6 +3,7 @@
 <head>
   <meta charSet='utf-8' />
   <title>{{config.title + ' - ' + page.title}}</title>
+  <link rel='icon' type='image/png' href='{{ url_for("images/logo.png") }}' />
   <link href='{{ url_for("css/bootstrap.min.css") }}' rel='stylesheet'>
   <link href='{{ url_for("css/docs.css") }}' rel='stylesheet'>
   <link href='{{ url_for("css/font-awesome.min.css") }}' rel='stylesheet'>
