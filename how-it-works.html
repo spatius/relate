@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charSet='utf-8' />
+  <title>Relate docs - How it works</title>
+  <link href='/css/bootstrap.min.css' rel='stylesheet'>
+  <link href='/css/docs.css' rel='stylesheet'>
+  <link href='/css/font-awesome.min.css' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='menu'>
+    <div class='logo'>
+      <img src='/images/logo.png' />
+      <span>Relate.js</span>
+    </div>
+    <nav class='menu-nav'>
+      
+        <ul class='nav'>
+          <span>Introduction</span>
+          <ul class='nav'>
+            
+              <li>
+                <a href='/index.html'>What is relate</a>
+              </li>
+            
+              <li>
+                <a href='/how-it-works.html' class='active'>How it works</a>
+              </li>
+            
+          </ul>
+        </ul>
+      
+        <ul class='nav'>
+          <span>Usage</span>
+          <ul class='nav'>
+            
+              <li>
+                <a href='/installation.html'>Installation</a>
+              </li>
+            
+              <li>
+                <a href='/reducer.html'>Reducer</a>
+              </li>
+            
+              <li>
+                <a href='/root-data-connect.html'>Root data connect</a>
+              </li>
+            
+              <li>
+                <a href='/fragments.html'>Fragments</a>
+              </li>
+            
+              <li>
+                <a href='/data-connect.html'>Data connect</a>
+              </li>
+            
+              <li>
+                <a href='/mutations.html'>Mutations</a>
+              </li>
+            
+          </ul>
+        </ul>
+      
+        <ul class='nav'>
+          <span>Advanced Usage</span>
+          <ul class='nav'>
+            
+              <li>
+                <a href='/intersect.html'>Catch queries or mutations in other reducers</a>
+              </li>
+            
+          </ul>
+        </ul>
+      
+    </nav>
+    <a class='footer' href='https://github.com/relax/relate'>
+      <i class='fa fa-github'></i>
+      <span>Project on github</span>
+    </a>
+  </div>
+  <div class='page'>
+    <div class='page-content'>
+      <h1>How it works</h1>
+      <p>Relate has three main parts:</p>
+<ul>
+<li><strong>Data connect</strong> - an extension of the React Redux connect, and serve to declare your container’s data needs.</li>
+<li><strong>Root data connect</strong> - responsible for gathering every data connect’s data needs and bundle them to query the server.</li>
+<li><strong>Relate reducer</strong> - a Redux reducer which handles the incoming data and provides each data connect the data they asked for.</li>
+</ul>
+<p>Here’s a small illustration of how it works:</p>
+<p><img src="/images/relate_scheme.png" alt="Relate scheme"></p>
+<p>Relate is agnostic to your data schema. For this to work Relate presumes your schema models have an ID associated, it will search data received from requests and check for nodes which have an ID associated. For example, when receiving the following data from a query:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  pages: [</span><br><span class="line">    &#123;</span><br><span class="line">      _id: <span class="string">'a'</span>,</span><br><span class="line">      title: <span class="string">'A'</span>,</span><br><span class="line">      user: &#123;</span><br><span class="line">        _id: <span class="string">'user'</span>,</span><br><span class="line">        username: <span class="string">'User'</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      _id: <span class="string">'b'</span>,</span><br><span class="line">      title: <span class="string">'B'</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  page: &#123;</span><br><span class="line">    _id: <span class="string">'c'</span>,</span><br><span class="line">    title: <span class="string">'C'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  pagesAnotherWay: &#123;</span><br><span class="line">    items: [</span><br><span class="line">      &#123;</span><br><span class="line">        _id: <span class="string">'b'</span>,</span><br><span class="line">        title: <span class="string">'B'</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        _id: <span class="string">'d'</span>,</span><br><span class="line">        title: <span class="string">'D'</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    pagesCount: <span class="number">2</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Relate will check which nodes comes in the request and normalize them into a private store. Following the above example the store will have the following:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  a: &#123;</span><br><span class="line">    _id: <span class="string">'a'</span>,</span><br><span class="line">    title: <span class="string">'A'</span>,</span><br><span class="line">    user: Link(<span class="string">'user'</span>)</span><br><span class="line">  &#125;,</span><br><span class="line">  user: &#123;</span><br><span class="line">    _id: <span class="string">'user'</span>,</span><br><span class="line">    username: <span class="string">'User'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  b: &#123;</span><br><span class="line">    _id: <span class="string">'b'</span>,</span><br><span class="line">    title: <span class="string">'B'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  c: &#123;</span><br><span class="line">    _id: <span class="string">'c'</span>,</span><br><span class="line">    title: <span class="string">'C'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  d: &#123;</span><br><span class="line">    _id: <span class="string">'d'</span>,</span><br><span class="line">    title: <span class="string">'D'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Note how even nested structures are normalized into the store. This allows to perform mutations on the <code>user</code> and page with ID ‘a’ will also be updated. Pretty neat!</p>
+<p>Relate will also store in what we call the connectors store a representation of what each connector requested. This data is then matched with the store data and calculated into the Redux reducer, <code>dataConnect</code> will be listening for his data as you do in a regular React Redux connect.</p>
+<p>So, for example, if you component specifies that it needs:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">query &#123;</span><br><span class="line">  pages &#123;</span><br><span class="line">    _id,</span><br><span class="line">    title,</span><br><span class="line">    user &#123;</span><br><span class="line">      _id,</span><br><span class="line">      username</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Presuming the response from the server would be:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  pages: [</span><br><span class="line">    &#123;</span><br><span class="line">      _id: <span class="string">'a'</span>,</span><br><span class="line">      title: <span class="string">'Page A'</span>,</span><br><span class="line">      user: &#123;</span><br><span class="line">        _id: <span class="string">'userx'</span>,</span><br><span class="line">        username: <span class="string">'User X'</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      _id: <span class="string">'b'</span>,</span><br><span class="line">      title: <span class="string">'Page B'</span>,</span><br><span class="line">      user: &#123;</span><br><span class="line">        _id: <span class="string">'usery'</span>,</span><br><span class="line">        username: <span class="string">'User Y'</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Relate would save in store these nodes:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  a: &#123;</span><br><span class="line">    _id: <span class="string">'a'</span>,</span><br><span class="line">    title: <span class="string">'Page A'</span>,</span><br><span class="line">    user: Link(<span class="string">'userx'</span>)</span><br><span class="line">  &#125;,</span><br><span class="line">  b: &#123;</span><br><span class="line">    _id: <span class="string">'b'</span>,</span><br><span class="line">    title: <span class="string">'Page B'</span>,</span><br><span class="line">    user: Link(<span class="string">'usery'</span>)</span><br><span class="line">  &#125;,</span><br><span class="line">  userx: &#123;</span><br><span class="line">    _id: <span class="string">'userx'</span>,</span><br><span class="line">    username: <span class="string">'User X'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  usery: &#123;</span><br><span class="line">    _id: <span class="string">'usery'</span>,</span><br><span class="line">    username: <span class="string">'User Y'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>It would also save your connectors’s requested data and what it needs from the store, Relate saves it in a format like this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    pages: [<span class="string">'a'</span>, <span class="string">'b'</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  listens: &#123;</span><br><span class="line">    pages: [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'userx'</span>, <span class="string">'usery'</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>When calculating the reducer state it will calculate the data each connector that needs to update from the store state. The connector listens for any change on the nodes it uses.</p>
+
+    </div>
+  </div>
+  <div class='switch-page'>
+    
+      <a class='previous' href='/index.html'>
+        <i class='fa fa-angle-left'></i>
+        <span>Previous</span>
+      </a>
+    
+    
+      <a class='next' href='/installation.html'>
+        <span>Next</span>
+        <i class='fa fa-angle-right'></i>
+      </a>
+    
+  </div>
+</body>
+</html>

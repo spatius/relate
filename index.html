@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charSet='utf-8' />
+  <title>Relate docs - What is Relate</title>
+  <link href='/css/bootstrap.min.css' rel='stylesheet'>
+  <link href='/css/docs.css' rel='stylesheet'>
+  <link href='/css/font-awesome.min.css' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='menu'>
+    <div class='logo'>
+      <img src='/images/logo.png' />
+      <span>Relate.js</span>
+    </div>
+    <nav class='menu-nav'>
+      
+        <ul class='nav'>
+          <span>Introduction</span>
+          <ul class='nav'>
+            
+              <li>
+                <a href='/index.html' class='active'>What is relate</a>
+              </li>
+            
+              <li>
+                <a href='/how-it-works.html'>How it works</a>
+              </li>
+            
+          </ul>
+        </ul>
+      
+        <ul class='nav'>
+          <span>Usage</span>
+          <ul class='nav'>
+            
+              <li>
+                <a href='/installation.html'>Installation</a>
+              </li>
+            
+              <li>
+                <a href='/reducer.html'>Reducer</a>
+              </li>
+            
+              <li>
+                <a href='/root-data-connect.html'>Root data connect</a>
+              </li>
+            
+              <li>
+                <a href='/fragments.html'>Fragments</a>
+              </li>
+            
+              <li>
+                <a href='/data-connect.html'>Data connect</a>
+              </li>
+            
+              <li>
+                <a href='/mutations.html'>Mutations</a>
+              </li>
+            
+          </ul>
+        </ul>
+      
+        <ul class='nav'>
+          <span>Advanced Usage</span>
+          <ul class='nav'>
+            
+              <li>
+                <a href='/intersect.html'>Catch queries or mutations in other reducers</a>
+              </li>
+            
+          </ul>
+        </ul>
+      
+    </nav>
+    <a class='footer' href='https://github.com/relax/relate'>
+      <i class='fa fa-github'></i>
+      <span>Project on github</span>
+    </a>
+  </div>
+  <div class='page'>
+    <div class='page-content'>
+      <h1>What is Relate</h1>
+      <p>Relate is a library built to use together with Redux and GraphQL. You can think of it as an alternative to <a href="https://github.com/facebook/relay" target="_blank" rel="external">Relay</a> for Redux. It extends the <a href="https://github.com/reactjs/react-redux" target="_blank" rel="external">React Redux’s</a> <code>connect</code> where you can additionally specify your container’s data needs. Relate will resolve each container data needs automatically and provides it to each one the data they requested.</p>
+<p>Relate follows a similar API to Relay, it isn’t a replacement but an alternative to it with some more liberty which might be a better fit for some projects.</p>
+<h2 id="Why-Relate"><a href="#Why-Relate" class="headerlink" title="Why Relate?"></a>Why Relate?</h2><p>This project was made out of necessity due to a grow of data complexity in <a href="https://github.com/relax/relax" target="_blank" rel="external">Relax CMS</a>. Redux is an awesome tool to handle an application data. The problem is when you get containers competing for the same resources, in Redux this can only be solved by scoping your reducers or creating more to accommodate all use cases and containers specifications. This doesn’t scale well!</p>
+<p><strong>Why not Relay to solve this?</strong></p>
+<p>Relay is a great project which might fit perfectly for some projects. For us at Relax it had a lot of constraints we couldn’t get around easily:</p>
+<ul>
+<li><strong>Strict schema definition</strong> - you have to comply to a certain convention and build a static schema file. In Relax we generate schemas on runtime.</li>
+<li><strong>Client local store</strong> - you can’t edit an entry locally with calling a mutation. This was a major step back in our case since we manipulate data in sometimes complex ways.</li>
+<li><strong>Server side rendering</strong> - still very fuzzy how to achieve isomorphism with Relay, I believe there’s a way but we couldn’t risk not having it.</li>
+</ul>
+<p>If you identify with these problems, Relate might be a good option. If not, Relay is your pick.</p>
+<h2 id="Differentiation-Points"><a href="#Differentiation-Points" class="headerlink" title="Differentiation Points"></a>Differentiation Points</h2><p>Relate tries to solve some of the problems mentioned above, which of course comes with some counterparts. What Relate solves:</p>
+<ul>
+<li><strong>Data agnostic</strong> - you don’t have to alter your schema to use it.</li>
+<li><strong>Uses Redux and extends React Redux</strong> - if you use these techs in your project already, it’ll be a perfect fit.</li>
+<li><strong>Capture queries and mutations in other reducers</strong> - you can collect data that comes from queries or mutations in other reducers and handle them as you want.</li>
+<li><strong>Server side rendering</strong> - (in progress)</li>
+</ul>
+<p>It loose some capabilities over Relay that <strong>can be worked out eventually</strong>:</p>
+<ul>
+<li><strong>Cache queries</strong> - Based on Relax CMS requirements (data always mutating) a cache mechanism wasn’t made</li>
+<li><strong>Automatic pagination</strong> - Relate doesn’t have an automatic way of paginating, instead it’s up to you to require the needed data from your schema to do this. You’re free to implement it the way you want.</li>
+<li><strong>Optimistic updates</strong> - Relate doesn’t have a way of setting optimistic updates. Instead you can capture and mutate your data from another reducer.</li>
+</ul>
+
+    </div>
+  </div>
+  <div class='switch-page'>
+    
+    
+      <a class='next' href='/how-it-works.html'>
+        <span>Next</span>
+        <i class='fa fa-angle-right'></i>
+      </a>
+    
+  </div>
+</body>
+</html>
