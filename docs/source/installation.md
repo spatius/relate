@@ -2,7 +2,7 @@
 layout: default
 id: installation
 title: Installation
-prev: requirements.html
+prev: how-it-works.html
 next: reducer.html
 ---
 

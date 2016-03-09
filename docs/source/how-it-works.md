@@ -3,7 +3,7 @@ layout: default
 id: how-it-works
 title: How it works
 prev: index.html
-next: requirements.html
+next: installation.html
 ---
 
 Relate has three main parts:
