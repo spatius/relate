@@ -4,7 +4,8 @@ import Relate, {
   dataConnect,
   rootDataConnect,
   reducer,
-  actionTypes
+  actionTypes,
+  mutation
 } from '../lib';
 
 describe('Relate', () => {
@@ -14,7 +15,8 @@ describe('Relate', () => {
       dataConnect,
       rootDataConnect,
       reducer,
-      actionTypes
+      actionTypes,
+      mutation
     });
   });
 });
