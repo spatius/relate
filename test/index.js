@@ -3,7 +3,7 @@ import expect from 'expect';
 import Relate, {
   dataConnect,
   rootDataConnect,
-  reducer,
+  relateReducer,
   actionTypes,
   mutation
 } from '../lib';
@@ -14,7 +14,7 @@ describe('Relate', () => {
     expect(Relate).toEqual({
       dataConnect,
       rootDataConnect,
-      reducer,
+      relateReducer,
       actionTypes,
       mutation
     });

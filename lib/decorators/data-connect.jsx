@@ -69,7 +69,7 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
     @connect(
       (state, props) => {
         return Object.assign(getReduxState && getReduxState(state, props) || {}, {
-          relateConnectorData: state.graphql[CONNECTOR_ID]
+          relateConnectorData: state.relateReducer[CONNECTOR_ID]
         });
       },
       (dispatch) => {

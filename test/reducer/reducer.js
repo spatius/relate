@@ -1,11 +1,11 @@
 import expect from 'expect';
 
-import {reducer, actionTypes} from '../../lib';
+import {relateReducer, actionTypes} from '../../lib';
 
 describe('Reducer', () => {
   it('Does not alter state if not a Relate action', () => {
     const state = {something: 1};
-    const newState = reducer(state, {type: 'not'});
+    const newState = relateReducer(state, {type: 'not'});
     expect(newState).toBe(state);
     expect(newState).toEqual(state);
   });
@@ -13,8 +13,8 @@ describe('Reducer', () => {
 
   it('Does not alter state if query action does not have data or fragments', () => {
     const state = {something: 1};
-    const newState = reducer(state, {type: actionTypes.query});
-    const newState1 = reducer(state, {type: actionTypes.query, data: {}});
+    const newState = relateReducer(state, {type: actionTypes.query});
+    const newState1 = relateReducer(state, {type: actionTypes.query, data: {}});
     expect(newState).toBe(state);
     expect(newState).toEqual(state);
     expect(newState1).toBe(state);
@@ -23,7 +23,7 @@ describe('Reducer', () => {
 
   it('State returns connectors data from what was requested', () => {
     const state = {};
-    const newState = reducer(state, {
+    const newState = relateReducer(state, {
       type: actionTypes.query,
       data: {
         pages: [{_id: 'a', title: 'some'}, {_id: 'b', title: 'another'}],
