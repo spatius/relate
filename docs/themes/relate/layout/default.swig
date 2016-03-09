@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link href='/_css/bootstrap.min.css' rel='stylesheet'>
-  <link href='/_css/docs.css' rel='stylesheet'>
-  <link href='/_css/font-awesome.min.css' rel='stylesheet'>
+  <link href='/css/bootstrap.min.css' rel='stylesheet'>
+  <link href='/css/docs.css' rel='stylesheet'>
+  <link href='/css/font-awesome.min.css' rel='stylesheet'>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700' rel='stylesheet' type='text/css'>
 </head>
 <body>
   <div class='menu'>
     <div class='logo'>
-      <img src='/_images/logo.png' />
+      <img src='/images/logo.png' />
       <span>Relate.js</span>
     </div>
     <nav class='menu-nav'>
@@ -19,7 +19,7 @@
           <ul class='nav'>
             {% for item in section.items %}
               <li>
-                {{ item | sidebar_item_link}}
+                <a href='{{item.href || "/" + item.id + ".html"}}'{% if item.id == page.id %} class='active'{% endif %}>{{item.title}}</a>
               </li>
             {% endfor %}
           </ul>
@@ -33,7 +33,7 @@
   </div>
   <div class='page'>
     <div class='page-content'>
-      {{content}}
+      {{page.content}}
     </div>
   </div>
   {% if page.prev %}
