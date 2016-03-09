@@ -1,11 +1,9 @@
 ---
 layout: default
 id: index
-title: Welcome
+title: What is Relate
 next: how-it-works.html
 ---
-
-# Motivation
 
 Relate is an extension of the redux connect which resolves your data needs automatically and provides it to your wrapped component.
 

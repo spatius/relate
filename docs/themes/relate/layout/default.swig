@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charSet='utf-8' />
+  <title>{{config.title + ' - ' + page.title}}</title>
   <link href='/css/bootstrap.min.css' rel='stylesheet'>
   <link href='/css/docs.css' rel='stylesheet'>
   <link href='/css/font-awesome.min.css' rel='stylesheet'>
@@ -33,20 +35,23 @@
   </div>
   <div class='page'>
     <div class='page-content'>
+      <h1>{{page.title}}</h1>
       {{page.content}}
     </div>
   </div>
-  {% if page.prev %}
-    <a class='previous' href='/{{ page.prev }}'>
-      <i class='fa fa-angle-left'></i>
-      <span>Previous</span>
-    </a>
-  {% endif %}
-  {% if page.next %}
-    <a class='next' href='/{{ page.next }}'>
-      <span>Next</span>
-      <i class='fa fa-angle-right'></i>
-    </a>
-  {% endif %}
+  <div class='switch-page'>
+    {% if page.prev %}
+      <a class='previous' href='/{{ page.prev }}'>
+        <i class='fa fa-angle-left'></i>
+        <span>Previous</span>
+      </a>
+    {% endif %}
+    {% if page.next %}
+      <a class='next' href='/{{ page.next }}'>
+        <span>Next</span>
+        <i class='fa fa-angle-right'></i>
+      </a>
+    {% endif %}
+  </div>
 </body>
 </html>

@@ -3,10 +3,8 @@ layout: default
 id: how-it-works
 title: How it works
 prev: index.html
-next: how-it-works.html
+next: requirements.html
 ---
-
-# How it works
 
 Relate has three main parts:
 

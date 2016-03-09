@@ -16,9 +16,11 @@
     title: Root data connect
   - id: fragments
     title: Fragments
+  - id: data-connect
+    title: Data connect
   - id: mutations
     title: Mutations
 - title: Advanced Usage
   items:
-  - id: intersecting
+  - id: intersect
     title: Catch queries or mutations in other reducers

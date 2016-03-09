@@ -91,5 +91,8 @@
 
   &:hover {
     text-decoration: none;
+    i, span {
+      color: $primary;
+    }
   }
 }
