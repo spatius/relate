@@ -83,7 +83,9 @@
   <div class='page'>
     <div class='page-content'>
       <h1>Reducer</h1>
-      <p>(in progress)</p>
+      <p>First thing to do is add the Relate reducer to your Redux reducers. This will assume you’re using Redux’s <code>combineReducers</code>. The process is really simple, in the file you’re combining your reducers you just have to add <code>relateReducer</code> which comes from <code>relate-js</code>. We’ll be using ES6 throughout the examples, but the same can be achieved with ES5. So, you’ll have something like the following:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;combineReducers&#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;relateReducer&#125; <span class="keyword">from</span> <span class="string">'relate-js'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rootReducer = combineReducers(&#123;</span><br><span class="line">  <span class="comment">// ... other reducers you might have</span></span><br><span class="line">  relateReducer</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> rootReducer;</span><br></pre></td></tr></table></figure>
+<p>Pretty simple right? You now have the Relate’s reducer all setup. This will collect the queries and mutations and provide data connectors the data they requested for.</p>
 
     </div>
   </div>
