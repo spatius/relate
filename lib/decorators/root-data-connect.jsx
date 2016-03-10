@@ -32,7 +32,7 @@ export default function rootDataConnect () {
 
       componentDidMount () {
         this.mounted = true;
-        if (this.bundle) {
+        if (this.bundle && this.bundle.fragments) {
           this.fetchData();
         }
       }
@@ -57,16 +57,17 @@ export default function rootDataConnect () {
 
       fetchData () {
         const { dispatch } = this.context.store;
-        const action = dispatch(queryAction);
-        action(
-          buildQueryAndVariables(this.bundle.fragments, this.bundle.variables),
-          this.bundle.fragments,
-          this.bundle.connectors
-        ).then(() => {
+        dispatch(
+          queryAction(
+            buildQueryAndVariables(this.bundle.fragments, this.bundle.variables),
+            this.bundle.fragments,
+            this.bundle.connectors
+          )
+        ).fin(() => {
           this.deferred.resolve();
           this.deferred = null;
+          this.bundle = {};
         });
-        this.bundle = {};
       }
 
       render () {
