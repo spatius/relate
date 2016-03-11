@@ -5,7 +5,8 @@ import Relate, {
   rootDataConnect,
   relateReducer,
   actionTypes,
-  mutation
+  mutation,
+  mergeFragments
 } from '../lib';
 
 describe('Relate', () => {
@@ -16,7 +17,8 @@ describe('Relate', () => {
       rootDataConnect,
       relateReducer,
       actionTypes,
-      mutation
+      mutation,
+      mergeFragments
     });
   });
 });
