@@ -8,7 +8,7 @@ next: installation.html
 
 Relate has three main parts:
 
-* **Data connect** - an extension of the React Redux connect, and serve to declare your container's data needs.
+* **Data connect** - an extension of the React Redux connect(), and serve to declare your container's data needs.
 * **Root data connect** - responsible for gathering every data connect's data needs and bundle them to query the server.
 * **Relate reducer** - a Redux reducer which handles the incoming data and provides each data connect the data they asked for.
 
@@ -84,9 +84,9 @@ Relate will check which nodes comes in the request and normalize them into a pri
 
 Note how even nested structures are normalized into the store. This allows to perform mutations on the `user` and page with ID 'a' will also be updated. Pretty neat!
 
-Relate will also store in what we call the connectors store a representation of what each connector requested. This data is then matched with the store data and calculated into the Redux reducer, `dataConnect` will be listening for his data as you do in a regular React Redux connect.
+Relate will also store in what we call the connectors store a representation of what each connector requested. This data is then matched with the store data and calculated into the Redux reducer, `dataConnect` will be listening for his data as you do in a regular React Redux connect().
 
-So, for example, if you component specifies that it needs:
+So, for example, if your component specifies that it needs:
 
 ```js
 query {
@@ -151,7 +151,7 @@ Relate would save in store these nodes:
 }
 ```
 
-It would also save your connectors's requested data and what it needs from the store, Relate saves it in a format like this:
+It would also save your connectors's requested data and what it needs from the store, Relate saves it in a structure like this:
 
 ```js
 {

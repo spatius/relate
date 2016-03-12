@@ -41,4 +41,4 @@ class App extends Component {
 export default rootDataConnect()(App);
 ```
 
-You're App is now ready to collect data requirements and request them in a single request. Nice! In the next page let's see how to declare those data requirements with fragments.
+Your App is now ready to collect data requirements and request them in a single request. Nice! In the next page let's see how to declare those data requirements with fragments.

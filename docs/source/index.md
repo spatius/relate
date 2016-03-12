@@ -5,9 +5,9 @@ title: What is Relate
 next: how-it-works.html
 ---
 
-Relate is a library built to use together with Redux and GraphQL. You can think of it as an alternative to [Relay](https://github.com/facebook/relay) for Redux. It extends the [React Redux's](https://github.com/reactjs/react-redux) `connect` where you can additionally specify your container's data needs. Relate will resolve each container data needs automatically and provides it to each one the data they requested.
+Relate is a library built to use together with Redux and GraphQL. You can think of it as an alternative to [Relay](https://github.com/facebook/relay) for Redux. It extends the [React Redux's](https://github.com/reactjs/react-redux) `connect()` function where you can additionally specify your container's data needs. Relate will resolve each container data needs automatically and provides it to each one the data they requested.
 
-Relate follows a similar API to Relay, it isn't a replacement but an alternative to it with some more liberty which might be a better fit for some projects.
+Relate follows a similar API to Relay, it isn't a replacement but an alternative to it with some more freedom which might be a better fit for some projects.
 
 ## Why Relate?
 
@@ -18,7 +18,7 @@ This project was made out of necessity due to a grow of data complexity in [Rela
 Relay is a great project which might fit perfectly for some projects. For us at Relax it had a lot of constraints we couldn't get around easily:
 
 * **Strict schema definition** - you have to comply to a certain convention and build a static schema file. In Relax we generate schemas on runtime.
-* **Client local store** - you can't edit an entry locally with calling a mutation. This was a major step back in our case since we manipulate data in sometimes complex ways.
+* **Client local store** - you can't edit an entry locally by calling a mutation. This was a major step back in our case since we manipulate data in sometimes complex ways.
 * **Server side rendering** - still very fuzzy how to achieve isomorphism with Relay, I believe there's a way but we couldn't risk not having it.
 
 If you identify with these problems, Relate might be a good option. If not, Relay is your pick.
