@@ -9,3 +9,61 @@ Relate follows a similar API to Relay, it isn't a replacement but an alternative
 ## Documentation
 
 http://relax.github.io/relate
+
+## Usage example
+
+Relate let's you declare data needs at a component level. Example:
+
+```js
+@dataConnect(
+  (state) => ({
+    sort: state.router.location.query.sort || '_id',
+    order: state.router.location.query.order || 'desc'
+  }),
+  (dispatch) => yourReduxDispatchMap...,
+  (props) => ({
+    fragments: {
+      pages: {
+        _id: 1,
+        title: 1,
+        state: 1
+      }
+    },
+    variablesTypes: {
+      pages: {
+        sort: 'String',
+        order: 'String'
+      }
+    },
+    initialVariables: {
+      pages: {
+        sort: props.sort,
+        order: props.order
+      }
+    }
+  })
+)
+export default class PagesContainer extends Component {
+  render () {
+    // pages will be available through this.props.pages
+    // ...
+  }
+}
+```
+
+You can use props mapped from your redux state to build the initial query. You can also set variables mid lifecycle:
+
+```js
+componentWillReceiveProps (nextProps) {
+  if (nextProps.sort !== this.props.sort || nextProps.order !== this.props.order) {
+    this.props.relate.setVariables({
+      pages: {
+        sort: nextProps.sort,
+        order: nextProps.order
+      }
+    });
+  }
+}
+```
+
+Relate will handle updates and removed nodes for you and update the connectors listening to them :)
