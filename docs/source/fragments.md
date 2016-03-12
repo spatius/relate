@@ -6,7 +6,7 @@ prev: root-data-connect.html
 next: data-connect.html
 ---
 
-Before diving into the data connect, let's see how to define fragments in Relate. Instead of setting up GraphQL fragments as you do in Relay, in Relate fragments are defined as a simple, plain JavaScript object. You do this by attributing the properties you wan with a truth value, can be `1` or `true`. For example:
+Before diving into the data connect, let's see how to define fragments in Relate. Instead of setting up GraphQL fragments as you do in Relay, in Relate fragments are defined as a simple, plain JavaScript object. You do this by attributing the properties you want with a truthy value, can be `1` or `true`. For example:
 
 ```js
 {
@@ -43,7 +43,10 @@ import React, {Component} from 'react';
 import {mergeFragments} from 'relate-js';
 
 export default class User extends Component {
-  static fragments = mergeFragments(UserPicture.fragments, UserInfo.fragments);
+  static fragments = mergeFragments(
+    UserPicture.fragments,
+    UserInfo.fragments
+  );
 
   render () {
     return (
@@ -56,7 +59,7 @@ export default class User extends Component {
 }
 ```
 
-Pretty clean, you're merging the fragments from the components the `User` component is using. Let's suppose that `UserPicture` and `UserInfo` have the following:
+Pretty clean, you're merging the fragments from the components the `User` component is rendering. Let's suppose that `UserPicture` and `UserInfo` have the following fragments:
 
 ```js
 import React, {Component} from 'react';
@@ -112,4 +115,4 @@ Simple example just to demonstrate two things, first the component will receive 
 }
 ```
 
-Static fragments should be placed in presentational components which require data from the server. You container components will be responsible for handling variables and is where the data connect comes to action as we'll demonstrate in the next page.
+Static fragments should be placed in presentational components which require data from the server. Your container components will be responsible for handling variables and is where the data connect comes to action as we'll demonstrate in the next page.

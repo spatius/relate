@@ -101,7 +101,7 @@ export default class PagesContainer extends Component {
 }
 ```
 
-The example is a bit extensive to show every part of it. Let's go through what's happening in the `dataConnect` first. The first two arguments are related to Redux React `connect`. First we fetch two values from the state that we'll use to add as variables in our query. The second is the dispatch map, since we'll not use none, it's set `null`.
+The example is a bit extensive to show every part of it. Let's go through what's happening in the `dataConnect` first. The first two arguments are related to Redux React `connect`. First we fetch two values from the state that we'll use to add as variables in our query. The second is the dispatch map, since we'll use none, it's set `null`.
 
 Now the special part comes in the third argument of `dataConnect` where we have:
 
@@ -193,7 +193,7 @@ Since we're defining an `_id` in our `pages` fragments, Relate will take them as
 ]
 ```
 
-If in some mutation, for example, `updatePageState` we mutate the page with `_id` b and set state to published. This list will be updated to reflect that change:
+If in some mutation, for example, `updatePageState` we mutate the page with `_id` b and set the state to published. This list will be updated to reflect that change:
 
 ```js
 [
@@ -225,7 +225,7 @@ mutations: {
 }
 ```
 
-What's happening here? We're telling Relate than when a mutation `addPage` is triggered it should prepend it to this container's `pages` field. This has its advantages since we can make something like the following:
+What's happening here? We're telling Relate that when a mutation `addPage` is triggered it should prepend it to this container's `pages` field. This has its advantages since we can make something like the following:
 
 ```js
 mutations: {
@@ -264,7 +264,7 @@ mutations: {
 
 ## Relate Props
 
-We might want to update something during the component lifecycle, being if some new props arrived or from an user interaction. When you use `dataConnect` your wrapped component will receive the following as props from relate:
+We might want to update something during the component lifecycle, being it some new props arrived or from an user interaction. When you use `dataConnect` your wrapped component will receive the following as props from relate:
 
 * **loading** - boolean value, true when your container is waiting for data.
 * **relate** - an object containing the following:

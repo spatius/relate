@@ -6,7 +6,7 @@ prev: how-it-works.html
 next: reducer.html
 ---
 
-To user Relate your project needs to have three modules already installed:
+To use Relate your project needs to have three modules already installed:
 
 * [React](https://github.com/facebook/react)
 * [Redux](https://github.com/reactjs/redux)
