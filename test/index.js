@@ -20,5 +20,12 @@ describe('Relate', () => {
       mutation,
       mergeFragments
     });
+
+    expect(dataConnect).toBeA(Function);
+    expect(rootDataConnect).toBeA(Function);
+    expect(relateReducer).toBeA(Function);
+    expect(actionTypes).toBeA(Object);
+    expect(mutation).toBeA(Function);
+    expect(mergeFragments).toBeA(Function);
   });
 });
