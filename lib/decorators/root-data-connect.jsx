@@ -46,6 +46,7 @@ export default function rootDataConnect () {
 
         // Check for same query with different variables
         const scopes = {};
+        const resultFragments = Object.assign({}, fragments || {});
         if (this.bundle.fragments) {
           forEach(fragments, (fragment, queryName) => {
             if (this.bundle.fragments[queryName]) {
@@ -59,30 +60,32 @@ export default function rootDataConnect () {
                 // Will have to scope it
                 const scope = `relate_${this.scopeID++}`;
                 const newQueryName = `${scope}: ${queryName}`;
-                fragments[newQueryName] = fragments[queryName];
+                Object.assign(resultFragments[newQueryName], fragments[queryName]);
                 scopes[scope] = queryName;
-                delete fragments[queryName];
+                delete resultFragments[queryName];
               }
             }
           });
         }
 
         this.bundle = {
-          fragments: mergeFragments(this.bundle.fragments || {}, fragments || {}),
+          fragments: mergeFragments(this.bundle.fragments || {}, resultFragments),
           variables: Object.assign(this.bundle.variables || {}, variables || {}),
           connectors: Object.assign(this.bundle.connectors || {}, {
             [ID]: {fragments, mutations, scopes}
           })
         };
 
-        this.mounted && this.fetchDebounce();
+        if (this.mounted) {
+          this.fetchDebounce();
+        }
         this.deferred = this.deferred || Q.defer();
 
         return this.deferred.promise;
       }
 
       fetchData () {
-        const { dispatch } = this.context.store;
+        const {dispatch} = this.context.store;
         dispatch(
           queryAction(
             buildQueryAndVariables(this.bundle.fragments, this.bundle.variables),
