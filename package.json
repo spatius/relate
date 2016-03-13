@@ -50,14 +50,14 @@
     "eslint-plugin-react": "^4.1.0",
     "expect": "^1.14.0",
     "mocha": "^2.4.5",
-    "react": "^0.14.7",
-    "react-redux": "^4.4.0",
-    "redux": "^3.3.1",
+    "react": "^0.14.0",
+    "react-redux": "^4.0.0",
+    "redux": "^3.0.0",
     "webpack": "^1.12.14"
   },
   "peerDependencies": {
-    "react": "^0.14.7",
-    "react-redux": "^4.4.0",
-    "redux": "^3.3.1"
+    "react": "^0.14.0",
+    "react-redux": "^4.0.0",
+    "redux": "^3.0.0"
   }
 }
