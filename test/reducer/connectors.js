@@ -448,4 +448,72 @@ describe('Connectors store', () => {
       }
     });
   });
+
+  it('Adds connectors with scoped data', () => {
+    const connectorsQuery = {
+      connector1: {
+        fragments: {
+          pages: {
+            _id: 1,
+            title: 1
+          }
+        }
+      },
+      connector2: {
+        fragments: {
+          pages: {
+            _id: 1,
+            title: 1
+          }
+        },
+        scopes: {
+          relate_1: 'pages'
+        }
+      }
+    };
+    connectors.connectors = {};
+    connectors.processConnectors(
+      connectorsQuery,
+      'pages',
+      ['a', 'b'],
+      ['a', 'b', 'c']
+    );
+    expect(connectors.connectors).toEqual({
+      connector1: {
+        data: {
+          pages: ['a', 'b']
+        },
+        listens: {
+          pages: ['a', 'b', 'c']
+        },
+        mutations: {}
+      }
+    });
+    connectors.processConnectors(
+      connectorsQuery,
+      'relate_1',
+      ['d', 'e'],
+      ['d', 'e', 'f']
+    );
+    expect(connectors.connectors).toEqual({
+      connector1: {
+        data: {
+          pages: ['a', 'b']
+        },
+        listens: {
+          pages: ['a', 'b', 'c']
+        },
+        mutations: {}
+      },
+      connector2: {
+        data: {
+          pages: ['d', 'e']
+        },
+        listens: {
+          pages: ['d', 'e', 'f']
+        },
+        mutations: {}
+      }
+    });
+  });
 });
