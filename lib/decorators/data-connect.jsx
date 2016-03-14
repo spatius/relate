@@ -1,15 +1,15 @@
 import forEach from 'lodash.foreach';
 import hoistStatics from 'hoist-non-react-statics';
 import invariant from 'invariant';
-import warning from 'warning';
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
 import removeConnector from '../actions/remove-connector';
 
-var ID_COUNTER = 0;
+let ID_COUNTER = 0;
 
-// getBundle is a function which receives the component props and retrieves a configuration set by the user
+// getBundle is a function which receives the component props
+// and retrieves a configuration set by the user
 // e.g
 // (props) => ({
 //   fragments: {
@@ -55,29 +55,17 @@ var ID_COUNTER = 0;
 //     ]
 //   }
 // })
-export default function dataConnect (getReduxState, getReduxDispatches, _getBundle) {
-  // let not defining redux functions
-  let getBundle = _getBundle;
-  if (arguments.length === 1) {
-    getBundle = getReduxState;
-  }
+export default function dataConnect (...args) {
+  invariant(args.length, 'Relate: a dataConnect does not have arguments specified');
+
+  const getReduxState = args.length > 1 && args[0];
+  const getReduxDispatches = args.length > 2 && args[1];
+  const getBundle = args[args.length - 1];
 
   // Connector id
-  const CONNECTOR_ID = 'connector_' + ID_COUNTER++;
+  const CONNECTOR_ID = `connector_${ID_COUNTER++}`;
 
   return function wrapWithDataConnect (WrappedComponent) {
-    @connect(
-      (state, props) => {
-        return Object.assign(getReduxState && getReduxState(state, props) || {}, {
-          relateConnectorData: state.relateReducer[CONNECTOR_ID]
-        });
-      },
-      (dispatch) => {
-        return Object.assign(getReduxDispatches && getReduxDispatches(dispatch) || {}, {
-          removeConnector: dispatch(removeConnector)
-        });
-      }
-    )
     class ConnectData extends Component {
       static propTypes = {
         relateConnectorData: PropTypes.object
@@ -95,8 +83,6 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
       constructor (props, context) {
         super(props, context);
 
-        warning(getBundle, `Relate: Data connector data info not configured in ${WrappedComponent.displayName || 'a component'}, use Redux connect instead!`);
-
         const initialBundle = getBundle && getBundle(this.props);
 
         // Relate connector info
@@ -107,11 +93,13 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
         };
 
         // Fetch data
-        initialBundle && this.fetchData({
-          fragments: initialBundle.fragments,
-          variables: initialBundle.initialVariables,
-          mutations: initialBundle.mutations
-        });
+        if (initialBundle) {
+          this.fetchData({
+            fragments: initialBundle.fragments,
+            variables: initialBundle.initialVariables,
+            mutations: initialBundle.mutations
+          });
+        }
 
         // Set initial state
         this.state = {
@@ -128,11 +116,13 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
         this.relate.variables = variables;
 
         // Fetch data
-        bundle && this.fetchData({
-          fragments: bundle.fragments,
-          variables: variables,
-          mutations: bundle.mutations
-        });
+        if (bundle) {
+          this.fetchData({
+            fragments: bundle.fragments,
+            variables,
+            mutations: bundle.mutations
+          });
+        }
       }
 
       getVariables (variables) {
@@ -143,11 +133,22 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
             const queryVariablesTypes = this.variablesTypes[queryName];
 
             // No variables types defined for this query
-            invariant(queryVariablesTypes, `Relate Error: Query to ${queryName} doesn't have variables types defined in ${WrappedComponent.displayName || 'a component'}!`);
+            invariant(
+              queryVariablesTypes,
+              'Relate: Query to %s doesn\'t have variables types defined in %s!',
+              queryName,
+              WrappedComponent.displayName || 'a component'
+            );
 
             // Check if every variable has a type
             forEach(vars, (value, variable) => {
-              invariant(queryVariablesTypes[variable], `Relate Error: Query to ${queryName} doesn't have variable '${variable}' type defined in ${WrappedComponent.displayName || 'a component'}!`);
+              invariant(
+                queryVariablesTypes[variable],
+                'Relate: Query to %s does not have variable "%s" type defined in %s!',
+                queryName,
+                variable,
+                WrappedComponent.displayName || 'a component'
+              );
 
               // add variable prepared for query e.g. {type: 'String', value: 'something'}
               resultVariables[queryName][variable] = {
@@ -158,7 +159,13 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
 
             // Check if every required variable type is met
             forEach(queryVariablesTypes, (type, variable) => {
-              invariant(type.slice(-1) !== '!' || vars[variable], `Relate Error: Query to ${queryName} requires the variable '${variable}' in ${WrappedComponent.displayName || 'a component'}!`);
+              invariant(
+                type.slice(-1) !== '!' || vars[variable],
+                'Relate: Query to %s requires the variable "%s" in %s!',
+                queryName,
+                variable,
+                WrappedComponent.displayName || 'a component'
+              );
             });
           });
         }
@@ -185,10 +192,32 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
 
       render () {
         const {relateConnectorData, ...otherProps} = this.props;
-        return <WrappedComponent {...otherProps} {...relateConnectorData} relate={this.relate} loading={this.state.loading} />;
+        return (
+          <WrappedComponent
+            {...otherProps}
+            {...relateConnectorData}
+            relate={this.relate}
+            loading={this.state.loading}
+          />
+        );
       }
     }
 
-    return hoistStatics(ConnectData, WrappedComponent);
+    const Connected = connect(
+      (state, props) => Object.assign(
+        getReduxState && getReduxState(state, props) || {},
+        {
+          relateConnectorData: state.relateReducer[CONNECTOR_ID]
+        }
+      ),
+      (dispatch) => Object.assign(
+        getReduxDispatches && getReduxDispatches(dispatch) || {},
+        {
+          removeConnector: dispatch(removeConnector)
+        }
+      )
+    )(ConnectData);
+
+    return hoistStatics(Connected, WrappedComponent);
   };
 }

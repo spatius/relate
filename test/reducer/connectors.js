@@ -57,6 +57,36 @@ describe('Connectors store', () => {
     });
   });
 
+  it('Adds a single connector from null data added', () => {
+    const connectors1 = new Connectors();
+    connectors1.processConnectors(
+      {
+        connector1: {
+          fragments: {
+            page: {
+              _id: 1,
+              title: 1
+            }
+          }
+        }
+      },
+      'page',
+      null,
+      []
+    );
+    expect(connectors1.connectors).toEqual({
+      connector1: {
+        data: {
+          page: null
+        },
+        listens: {
+          page: []
+        },
+        mutations: {}
+      }
+    });
+  });
+
   it('Adds connector with array data', () => {
     connectors.processConnectors(
       {
@@ -415,6 +445,74 @@ describe('Connectors store', () => {
             }
           ]
         }
+      }
+    });
+  });
+
+  it('Adds connectors with scoped data', () => {
+    const connectorsQuery = {
+      connector1: {
+        fragments: {
+          pages: {
+            _id: 1,
+            title: 1
+          }
+        }
+      },
+      connector2: {
+        fragments: {
+          pages: {
+            _id: 1,
+            title: 1
+          }
+        },
+        scopes: {
+          relate_1: 'pages'
+        }
+      }
+    };
+    connectors.connectors = {};
+    connectors.processConnectors(
+      connectorsQuery,
+      'pages',
+      ['a', 'b'],
+      ['a', 'b', 'c']
+    );
+    expect(connectors.connectors).toEqual({
+      connector1: {
+        data: {
+          pages: ['a', 'b']
+        },
+        listens: {
+          pages: ['a', 'b', 'c']
+        },
+        mutations: {}
+      }
+    });
+    connectors.processConnectors(
+      connectorsQuery,
+      'relate_1',
+      ['d', 'e'],
+      ['d', 'e', 'f']
+    );
+    expect(connectors.connectors).toEqual({
+      connector1: {
+        data: {
+          pages: ['a', 'b']
+        },
+        listens: {
+          pages: ['a', 'b', 'c']
+        },
+        mutations: {}
+      },
+      connector2: {
+        data: {
+          pages: ['d', 'e']
+        },
+        listens: {
+          pages: ['d', 'e', 'f']
+        },
+        mutations: {}
       }
     });
   });

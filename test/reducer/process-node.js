@@ -25,6 +25,19 @@ describe('Nodes processing', () => {
     });
   });
 
+  it('Null node', () => {
+    const result = processNode(null, {
+      _id: 1,
+      title: 1
+    });
+
+    expect(result).toEqual({
+      relativeNodes: null,
+      nodes: [],
+      changes: {}
+    });
+  });
+
   it('Array node', () => {
     const result = processNode([
       {
