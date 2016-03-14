@@ -41,12 +41,11 @@ export default function rootDataConnect () {
       }
 
       childFetchData ({fragments, variables, ID, mutations}) {
-        // TODO check if same query with different variables (will need to scope varibles)
-        // e.g. {somepages: pages (..) {..}, morepages: pages (..) {..}}
-
         // Check for same query with different variables
         const scopes = {};
         const resultFragments = Object.assign({}, fragments || {});
+        const resultVariables = Object.assign({}, variables || {});
+
         if (this.bundle.fragments) {
           forEach(fragments, (fragment, queryName) => {
             if (this.bundle.fragments[queryName]) {
@@ -60,9 +59,14 @@ export default function rootDataConnect () {
                 // Will have to scope it
                 const scope = `relate_${this.scopeID++}`;
                 const newQueryName = `${scope}: ${queryName}`;
-                Object.assign(resultFragments[newQueryName], fragments[queryName]);
+                resultFragments[newQueryName] = Object.assign({}, fragments[queryName]);
                 scopes[scope] = queryName;
                 delete resultFragments[queryName];
+
+                if (resultVariables[queryName]) {
+                  resultVariables[newQueryName] = Object.assign({}, variables[queryName]);
+                  delete resultVariables[queryName];
+                }
               }
             }
           });
@@ -70,7 +74,7 @@ export default function rootDataConnect () {
 
         this.bundle = {
           fragments: mergeFragments(this.bundle.fragments || {}, resultFragments),
-          variables: Object.assign(this.bundle.variables || {}, variables || {}),
+          variables: Object.assign(this.bundle.variables || {}, resultVariables),
           connectors: Object.assign(this.bundle.connectors || {}, {
             [ID]: {fragments, mutations, scopes}
           })
