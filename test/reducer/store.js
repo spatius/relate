@@ -154,6 +154,11 @@ describe('Store', () => {
     });
   });
 
+  it('Gets null data', () => {
+    const data = store.getData(null);
+    expect(data).toEqual(null);
+  });
+
   it('Gets array of nodes', () => {
     const data = store.getData(['a', 'b']);
     expect(data).toEqual([

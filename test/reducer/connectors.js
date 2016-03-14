@@ -57,6 +57,36 @@ describe('Connectors store', () => {
     });
   });
 
+  it('Adds a single connector from null data added', () => {
+    const connectors1 = new Connectors();
+    connectors1.processConnectors(
+      {
+        connector1: {
+          fragments: {
+            page: {
+              _id: 1,
+              title: 1
+            }
+          }
+        }
+      },
+      'page',
+      null,
+      []
+    );
+    expect(connectors1.connectors).toEqual({
+      connector1: {
+        data: {
+          page: null
+        },
+        listens: {
+          page: []
+        },
+        mutations: {}
+      }
+    });
+  });
+
   it('Adds connector with array data', () => {
     connectors.processConnectors(
       {
