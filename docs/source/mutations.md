@@ -61,7 +61,7 @@ This mutation will produce a GraphQL mutation request like this:
 
 ## Remove Special Case
 
-Since Relate is agnostic to your data scheme, it can differentiate a remove action from an update or add one. So in order for a remove action to properly work you also need to provide a `mutationType` property set to 'REMOVE'. Here's an example:
+Since Relate is agnostic to your data scheme, it can differentiate a remove action from an update or add one. So in order for a remove action to properly work you also need to provide a `type` property set to 'REMOVE'. Here's an example:
 
 ```js
 import {mutation} from 'relate-js';
@@ -81,7 +81,7 @@ export function removePage (id) {
         }
       }
     },
-    mutationType: 'REMOVE'
+    type: 'REMOVE'
   });
 }
 ```
