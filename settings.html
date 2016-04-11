@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charSet='utf-8' />
+  <title>Relate docs - Changing requests endpoint and headers</title>
+  <link rel='icon' type='image/png' href='/relate/images/logo.png' />
+  <link href='/relate/css/bootstrap.min.css' rel='stylesheet'>
+  <link href='/relate/css/docs.css' rel='stylesheet'>
+  <link href='/relate/css/font-awesome.min.css' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='menu'>
+    <div class='logo'>
+      <img src='/relate/images/logo.png' />
+      <span>Relate.js</span>
+    </div>
+    <nav class='menu-nav'>
+      
+        <ul class='nav'>
+          <span>Introduction</span>
+          <ul class='nav'>
+            
+              <li>
+                <a href='/relate/index.html'>What is relate</a>
+              </li>
+            
+              <li>
+                <a href='/relate/how-it-works.html'>How it works</a>
+              </li>
+            
+          </ul>
+        </ul>
+      
+        <ul class='nav'>
+          <span>Usage</span>
+          <ul class='nav'>
+            
+              <li>
+                <a href='/relate/installation.html'>Installation</a>
+              </li>
+            
+              <li>
+                <a href='/relate/reducer.html'>Reducer</a>
+              </li>
+            
+              <li>
+                <a href='/relate/root-data-connect.html'>Root data connect</a>
+              </li>
+            
+              <li>
+                <a href='/relate/fragments.html'>Fragments</a>
+              </li>
+            
+              <li>
+                <a href='/relate/data-connect.html'>Data connect</a>
+              </li>
+            
+              <li>
+                <a href='/relate/mutations.html'>Mutations</a>
+              </li>
+            
+          </ul>
+        </ul>
+      
+        <ul class='nav'>
+          <span>Advanced Usage</span>
+          <ul class='nav'>
+            
+              <li>
+                <a href='/relate/settings.html' class='active'>Changing requests endpoint and headers</a>
+              </li>
+            
+              <li>
+                <a href='/relate/intersect.html'>Catch queries or mutations in other reducers</a>
+              </li>
+            
+          </ul>
+        </ul>
+      
+    </nav>
+    <a class='footer' href='https://github.com/relax/relate'>
+      <i class='fa fa-github'></i>
+      <span>Project on github</span>
+    </a>
+  </div>
+  <div class='page'>
+    <div class='page-content'>
+      <h1>Changing requests endpoint and headers</h1>
+      <p>It is often necessary to set additional headers on the GraphQL requests or change the endpoint to where the requests are made. By default Relate has the following configuration:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  endpoint: <span class="string">'/graphql'</span>,</span><br><span class="line">  headers: &#123;</span><br><span class="line">    <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,</span><br><span class="line">    <span class="string">'Accept'</span>: <span class="string">'application/json'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>You can change these defaults in two ways: using a reducer factory method or sending them in the initial state of the reducer.</p>
+<h2 id="Reducer-Factory"><a href="#Reducer-Factory" class="headerlink" title="Reducer Factory"></a>Reducer Factory</h2><p>This is a helper method to include your reducer, to which you can pass a settings which is merged with the defaults above. To do this, <strong>instead of</strong> including the reducer in your combine reducers like this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;combineReducers&#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;relateReducer&#125; <span class="keyword">from</span> <span class="string">'relate-js'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> combineReducers(&#123;</span><br><span class="line">  <span class="comment">// ... other reducers you might have</span></span><br><span class="line">  relateReducer</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>You do it with the reducer factory, like so:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;combineReducers&#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;relateReducerInit&#125; <span class="keyword">from</span> <span class="string">'relate-js'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> combineReducers(&#123;</span><br><span class="line">  <span class="comment">// ... other reducers you might have</span></span><br><span class="line">  relateReducerInit(&#123;</span><br><span class="line">    endpoint: <span class="string">'http://anotherserver/graphql'</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>In the example above we’re changing the default endpoint but the headers remain the default ones. But if you change the headers it won’t merge with the defaults. So if you do this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">relateReducerInit(&#123;</span><br><span class="line">  headers: &#123;</span><br><span class="line">    something: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>Your final configuration will be like this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  endpoint: <span class="string">'/graphql'</span>,</span><br><span class="line">  headers: &#123;</span><br><span class="line">    something: <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Changing-Reducer-Initial-State"><a href="#Changing-Reducer-Initial-State" class="headerlink" title="Changing Reducer Initial State"></a>Changing Reducer Initial State</h2><p>You can also define your configuration when creating the Redux store by passing configuration through the <code>initialState</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> initialState = &#123;</span><br><span class="line">  relateReducer: &#123;</span><br><span class="line">    endpoint: <span class="string">'/graphql'</span>,</span><br><span class="line">    headers: &#123;</span><br><span class="line">      <span class="string">'x-important-header'</span>: <span class="string">'foo'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> store = configureStore(intialState);</span><br></pre></td></tr></table></figure>
+<p>Note that none of the values are merged with the defaults. So if you <strong>only</strong> want to change the endpoint you’d have to set the initial state to:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> initialState = &#123;</span><br><span class="line">  relateReducer: &#123;</span><br><span class="line">    endpoint: <span class="string">'http://anotherserver/graphql'</span>,</span><br><span class="line">    headers: &#123;</span><br><span class="line">      <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,</span><br><span class="line">      <span class="string">'Accept'</span>: <span class="string">'application/json'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="Mutating-Headers-and-Endpoint"><a href="#Mutating-Headers-and-Endpoint" class="headerlink" title="Mutating Headers and Endpoint"></a>Mutating Headers and Endpoint</h2><p>You also might want to set new headers or change the endpoint for different resources. Relate allows you to modify these using standard Redux actions from anywhere in your application.</p>
+<p>Here’s an example of setting an authorization header (for example, setting a bearer token after successfully logging in).</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;setHeader&#125; <span class="keyword">from</span> <span class="string">'relate-js'</span>;</span><br><span class="line">dispatch(setHeader(<span class="string">'Authorization'</span>, <span class="string">'Bearer 123456'</span>));</span><br></pre></td></tr></table></figure>
+<p>If no longer needed, a header can be removed:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;removeHeader&#125; <span class="keyword">from</span> <span class="string">'relate-js'</span>;</span><br><span class="line">dispatch(removeHeader(<span class="string">'Authorization'</span>));</span><br></pre></td></tr></table></figure>
+<p>You can also change the endpoint:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;setEndpoint&#125; <span class="keyword">from</span> <span class="string">'relate-js'</span>;</span><br><span class="line">dispatch(setEndpoint(<span class="string">'/different-graphql-endpoint'</span>));</span><br></pre></td></tr></table></figure>
+
+    </div>
+  </div>
+  <div class='switch-page'>
+    
+      <a class='previous' href='/relate/mutations.html'>
+        <i class='fa fa-angle-left'></i>
+        <span>Previous</span>
+      </a>
+    
+    
+      <a class='next' href='/relate/intersect.html'>
+        <span>Next</span>
+        <i class='fa fa-angle-right'></i>
+      </a>
+    
+  </div>
+</body>
+</html>

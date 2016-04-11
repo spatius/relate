@@ -68,6 +68,10 @@
           <ul class='nav'>
             
               <li>
+                <a href='/relate/settings.html'>Changing requests endpoint and headers</a>
+              </li>
+            
+              <li>
                 <a href='/relate/intersect.html'>Catch queries or mutations in other reducers</a>
               </li>
             
@@ -83,14 +87,14 @@
   <div class='page'>
     <div class='page-content'>
       <h1>What is Relate</h1>
-      <p>Relate is a library built to use together with Redux and GraphQL. You can think of it as an alternative to <a href="https://github.com/facebook/relay" target="_blank" rel="external">Relay</a> for Redux. It extends the <a href="https://github.com/reactjs/react-redux" target="_blank" rel="external">React Redux’s</a> <code>connect</code> where you can additionally specify your container’s data needs. Relate will resolve each container data needs automatically and provides it to each one the data they requested.</p>
-<p>Relate follows a similar API to Relay, it isn’t a replacement but an alternative to it with some more liberty which might be a better fit for some projects.</p>
+      <p>Relate is a library built to use together with Redux and GraphQL. You can think of it as an alternative to <a href="https://github.com/facebook/relay" target="_blank" rel="external">Relay</a> for Redux. It extends the <a href="https://github.com/reactjs/react-redux" target="_blank" rel="external">React Redux’s</a> <code>connect()</code> function where you can additionally specify your container’s data needs. Relate will resolve each container data needs automatically and provides it to each one the data they requested.</p>
+<p>Relate follows a similar API to Relay, it isn’t a replacement but an alternative to it with some more freedom which might be a better fit for some projects.</p>
 <h2 id="Why-Relate"><a href="#Why-Relate" class="headerlink" title="Why Relate?"></a>Why Relate?</h2><p>This project was made out of necessity due to a grow of data complexity in <a href="https://github.com/relax/relax" target="_blank" rel="external">Relax CMS</a>. Redux is an awesome tool to handle an application data. The problem is when you get containers competing for the same resources, in Redux this can only be solved by scoping your reducers or creating more to accommodate all use cases and containers specifications. This doesn’t scale well!</p>
 <p><strong>Why not Relay to solve this?</strong></p>
 <p>Relay is a great project which might fit perfectly for some projects. For us at Relax it had a lot of constraints we couldn’t get around easily:</p>
 <ul>
 <li><strong>Strict schema definition</strong> - you have to comply to a certain convention and build a static schema file. In Relax we generate schemas on runtime.</li>
-<li><strong>Client local store</strong> - you can’t edit an entry locally with calling a mutation. This was a major step back in our case since we manipulate data in sometimes complex ways.</li>
+<li><strong>Client local store</strong> - you can’t edit an entry locally by calling a mutation. This was a major step back in our case since we manipulate data in sometimes complex ways.</li>
 <li><strong>Server side rendering</strong> - still very fuzzy how to achieve isomorphism with Relay, I believe there’s a way but we couldn’t risk not having it.</li>
 </ul>
 <p>If you identify with these problems, Relate might be a good option. If not, Relay is your pick.</p>
