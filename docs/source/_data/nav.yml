@@ -20,5 +20,7 @@
     title: Mutations
 - title: Advanced Usage
   items:
+  - id: settings
+    title: Changing requests endpoint and headers
   - id: intersect
     title: Catch queries or mutations in other reducers
