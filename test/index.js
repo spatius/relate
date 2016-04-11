@@ -4,6 +4,7 @@ import Relate, {
   dataConnect,
   rootDataConnect,
   relateReducer,
+  relateReducerInit,
   actionTypes,
   mutation,
   mergeFragments,
@@ -19,6 +20,7 @@ describe('Relate', () => {
       dataConnect,
       rootDataConnect,
       relateReducer,
+      relateReducerInit,
       removeHeader,
       setEndpoint,
       setHeader,
@@ -30,6 +32,7 @@ describe('Relate', () => {
     expect(dataConnect).toBeA(Function);
     expect(rootDataConnect).toBeA(Function);
     expect(relateReducer).toBeA(Function);
+    expect(relateReducerInit).toBeA(Function);
     expect(actionTypes).toBeA(Object);
     expect(mutation).toBeA(Function);
     expect(mergeFragments).toBeA(Function);

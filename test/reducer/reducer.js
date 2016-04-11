@@ -1,6 +1,6 @@
 import expect from 'expect';
 
-import {relateReducer, actionTypes} from '../../lib';
+import {relateReducer, relateReducerInit, actionTypes} from '../../lib';
 
 describe('Reducer', () => {
   it('Does not alter state if not a Relate action', () => {
@@ -10,6 +10,42 @@ describe('Reducer', () => {
     expect(newState).toEqual(state);
   });
 
+  it('Reducer init returns with merged settings', () => {
+    const reducer = relateReducerInit({endpoint: '/test'});
+    const newState = reducer();
+    expect(newState).toEqual({
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      endpoint: '/test'
+    });
+    const reducer1 = relateReducerInit({headers: {test: 1}});
+    const newState1 = reducer1();
+    expect(newState1).toEqual({
+      headers: {
+        test: 1
+      },
+      endpoint: '/test'
+    });
+
+    // revert
+    const reducer2 = relateReducerInit({
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      endpoint: '/graphql'
+    });
+    const newState2 = reducer2();
+    expect(newState2).toEqual({
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      endpoint: '/graphql'
+    });
+  });
 
   it('Does not alter state if query action does not have data or fragments', () => {
     const state = {something: 1};
