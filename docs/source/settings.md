@@ -42,7 +42,7 @@ import {relateReducerInit} from 'relate-js';
 
 export default combineReducers({
   // ... other reducers you might have
-  relateReducerInit({
+  relateReducer: relateReducerInit({
     endpoint: 'http://anotherserver/graphql'
   })
 });
