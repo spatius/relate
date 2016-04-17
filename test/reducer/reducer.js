@@ -63,7 +63,10 @@ describe('Reducer', () => {
       type: actionTypes.query,
       data: {
         pages: [{_id: 'a', title: 'some'}, {_id: 'b', title: 'another'}],
-        page: {_id: 'c', title: 'other'}
+        page: {_id: 'c', title: 'other'},
+        root: {
+          list: [{_id: 'd', title: 'd entry'}, {_id: 'e', title: 'e entry'}]
+        }
       },
       fragments: {
         pages: {
@@ -73,6 +76,12 @@ describe('Reducer', () => {
         page: {
           _id: 1,
           title: 1
+        },
+        root: {
+          list: {
+            _id: 1,
+            title: 1
+          }
         }
       },
       connectors: {
@@ -93,6 +102,16 @@ describe('Reducer', () => {
             page: {
               _id: 1,
               title: 1
+            }
+          }
+        },
+        connector3: {
+          fragments: {
+            root: {
+              list: {
+                _id: 1,
+                title: 1
+              }
             }
           }
         }
@@ -124,6 +143,20 @@ describe('Reducer', () => {
           }
         ],
         page: {_id: 'c', title: 'other'}
+      },
+      connector3: {
+        root: {
+          list: [
+            {
+              _id: 'd',
+              title: 'd entry'
+            },
+            {
+              _id: 'e',
+              title: 'e entry'
+            }
+          ]
+        }
       }
     });
   });
