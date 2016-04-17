@@ -65,7 +65,7 @@ describe('Reducer', () => {
         pages: [{_id: 'a', title: 'some'}, {_id: 'b', title: 'another'}],
         page: {_id: 'c', title: 'other'},
         root: {
-          list: [{_id: 'd', title: 'd entry'}, {_id: 'e', title: 'e entry'}]
+          list: [{_id: 123, title: 'd entry'}, {_id: 1234, title: 'e entry'}]
         }
       },
       fragments: {
@@ -148,11 +148,11 @@ describe('Reducer', () => {
         root: {
           list: [
             {
-              _id: 'd',
+              _id: 123,
               title: 'd entry'
             },
             {
-              _id: 'e',
+              _id: 1234,
               title: 'e entry'
             }
           ]
