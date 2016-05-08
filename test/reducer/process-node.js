@@ -147,7 +147,15 @@ describe('Nodes processing', () => {
             _id: 'nested1',
             something: 'something 1'
           }
-        }
+        },
+        list: [
+          {
+            _id: 'list1'
+          },
+          {
+            _id: 'list2'
+          }
+        ]
       }
     ], {
       _id: 1,
@@ -159,17 +167,21 @@ describe('Nodes processing', () => {
           _id: 1,
           something: 1
         }
+      },
+      list: {
+        _id: 1
       }
     });
 
     expect(result).toEqual({
       relativeNodes: ['a'],
-      nodes: ['a', 'user1', 'nested1'],
+      nodes: ['a', 'user1', 'nested1', 'list1', 'list2'],
       changes: {
         a: {
           _id: 'a',
           title: 'A',
-          user: new Link('user1')
+          user: new Link('user1'),
+          list: new Link(['list1', 'list2'])
         },
         user1: {
           _id: 'user1',
@@ -179,6 +191,12 @@ describe('Nodes processing', () => {
         nested1: {
           _id: 'nested1',
           something: 'something 1'
+        },
+        list1: {
+          _id: 'list1'
+        },
+        list2: {
+          _id: 'list2'
         }
       }
     });

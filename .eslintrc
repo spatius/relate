@@ -10,6 +10,7 @@
       'ignoreComments': false
     }],
     "no-unused-expressions": [2, { allowShortCircuit: true }],
-    "no-use-before-define": [2, { "functions": false, "classes": true }]
+    "no-use-before-define": [2, { "functions": false, "classes": true }],
+    "no-param-reassign": ["error", { "props": false }]
   }
 }
