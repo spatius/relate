@@ -25,6 +25,7 @@
     "hoist-non-react-statics": "^1.0.5",
     "invariant": "^2.2.0",
     "lodash.debounce": "^4.0.3",
+    "lodash.filter": "^4.3.0",
     "lodash.foreach": "^4.1.0",
     "lodash.get": "^4.1.2",
     "lodash.intersection": "^4.1.1",
