@@ -1,6 +1,7 @@
 {
+  "private": true,
   "name": "relate-js",
-  "version": "0.4.4",
+  "version": "1.4.4",
   "description": "Relate is an agnostic client data connector for React on top of Redux",
   "main": "dist/index.js",
   "scripts": {
@@ -12,15 +13,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/relax/relate.git"
+    "url": "git+https://github.com/spatius/relate.git"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/relax/relate/issues"
-  },
-  "homepage": "https://github.com/relax/relate#readme",
   "dependencies": {
     "hoist-non-react-statics": "^1.0.5",
     "invariant": "^2.2.0",
